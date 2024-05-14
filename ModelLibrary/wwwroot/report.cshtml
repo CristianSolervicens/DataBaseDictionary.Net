@@ -39,7 +39,7 @@
     @if ( !(bool) Model["no_procs"] )
     {
         <br>
-        <div><a href="#procedimientos"><h2>Procedimientos</h2></a></div>
+        <div><a href="#procedimientos"><h2>Procedimientos Almacenados</h2></a></div>
         <div class="row">
             @foreach( ModelLibrary.DBObjects.Proc proc in (IList< ModelLibrary.DBObjects.Proc >) Model["procs"] )
             {
@@ -179,9 +179,8 @@
 
 <!-- PROCS -->
 
-@if (!(bool)Model["no_procs"])
+@if (!(bool)Model["no_procs"] && ((IList<ModelLibrary.DBObjects.Proc>)Model["procs"]).Count > 0 )
 {
-
     <span class="brlarge">  </span>
     <span class="brlarge">  </span>
     <h2 id="procedimientos"><a href="#indice">Procedimientos Almacenados</a></h2>
@@ -202,7 +201,7 @@
 
 <!-- FUNCIONES -->
 
-@if ( !(bool) Model["no_functions"] )
+@if ( !(bool) Model["no_functions"] && )
 {
     @if ( ((IList<ModelLibrary.DBObjects.ScalarFunction>) Model["scalar_funcs"]).Count > 0  )
     {
