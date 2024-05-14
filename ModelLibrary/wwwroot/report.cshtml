@@ -1,0 +1,248 @@
+﻿@model Dictionary<string,object>
+
+@{
+    Layout = "/wwwroot/Views/_Layout.cshtml";
+}
+
+<div id="indice">
+    <hr>
+    <br>
+    <h1 class="center">Indice</h1>
+
+    <!--  INDICES -->
+
+    @if (!(bool) Model["no_tables"])
+    {
+        <br>
+        <div><a href="#tablas"><h2>Tablas</h2></a></div>
+        <div class="row">
+            @foreach( ModelLibrary.DBObjects.Table table in (IList<ModelLibrary.DBObjects.Table>) (ViewData.Model["tables"]) )
+            {
+                <div class="@Model["index_column_class"]"><a href="#@table.Schema.@table.Name">@table.Schema.@table.Name</a></div>
+            }
+        
+        </div>
+    }
+
+    @if (!(bool) Model["no_views"])
+    {
+        <br>
+        <div><a href="#vistas"><h2>Vistas</h2></a></div>
+        <div class="row">
+            @foreach( ModelLibrary.DBObjects.View view in (IList< ModelLibrary.DBObjects.View>)(Model["views"]) )
+            {
+                <div class="@Model["index_column_class"]"><a href="#@view.Schema.@view.Name">@view.Schema.@view.Name</a></div>
+            }
+        </div>
+    }
+
+    @if ( !(bool) Model["no_procs"] )
+    {
+        <br>
+        <div><a href="#procedimientos"><h2>Procedimientos</h2></a></div>
+        <div class="row">
+            @foreach( ModelLibrary.DBObjects.Proc proc in (IList< ModelLibrary.DBObjects.Proc >) Model["procs"] )
+            {
+                <div class="@Model["index_column_class"]"><a href="#@proc.Schema.@proc.Name">@proc.Schema.@proc.Name</a></div>
+            }
+        </div>
+    }
+
+    @if ( !(bool) Model["no_functions"] )
+    {
+        <br>
+        <div><a href="#scalar_funcs"><h2>Funciones Escalares</h2></a></div>
+        <div class="row">
+            @foreach (ModelLibrary.DBObjects.ScalarFunction function in (IList<ModelLibrary.DBObjects.ScalarFunction>)Model["scalar_funcs"])
+            {
+                <div class="@Model["index_column_class"]"><a href="#@function.Schema.@function.Name">@function.Schema.@function.Name</a></div>
+            }
+        </div>
+
+        <br>
+        <div><a href="#tab_funcs"><h2>Funciones Tabulares</h2></a></div>
+        <div class="row">
+            @foreach (ModelLibrary.DBObjects.TableFunction function in (IList<ModelLibrary.DBObjects.TableFunction>)Model["table_funcs"])
+            {
+                <div class="@Model["index_column_class"]"><a href="#@function.Schema.@function.Name">@function.Schema.@function.Name</a></div>
+            }
+        </div>
+    }
+
+
+<!-- DICCIONARIO -->
+</div>
+<span class="brlarge">  </span>
+<hr>
+<span class="brlarge">  </span>
+
+<!--  TABLAS -->
+
+@if (!(bool)Model["no_tables"] && ((IList< ModelLibrary.DBObjects.Table>) Model["tables"]).Count > 0  )
+{
+    <br />
+    <span class="brlarge">  </span>
+    <h2 id="tablas"><a href="#indice">Tablas</a></h2>
+    <br />
+    <br />
+    @foreach( ModelLibrary.DBObjects.Table table in (IList<ModelLibrary.DBObjects.Table>)Model["tables"])
+    {
+        <span class="brlarge">  </span>
+        <span class="brlarge">  </span>
+        <div class="bold" id="@table.Schema.@table.Name"><a href="#indice">Table : @table.Schema.@table.Name</a></div>
+        <div class="enfatizar"><b>Comentario:</b> @table.Comment</div>
+        <br>
+        @if ( !((IList<string>)Model["status"]).Any(s => table.Comment.Equals(s) ) )
+        {
+            <table class="tdTableSection">
+                <tr>
+                    <th>Columna</th>
+                    <th>Tipo</th>
+                    <th>Nullable</th>
+                    <th>Default</th>
+                    <th>PK</th>
+                    <th>FK</th>
+                    <th>Unique Key</th>
+                    <th>Check</th>
+                    <th>Computed</th>
+                    <th>Comments</th>
+                </tr>
+                @foreach( var col in table.TableDetails )
+                {
+                    <tr>
+                        <td>@col.Column</td>
+                        <td>@col.Type</td>
+                        <td>@col.Nullable</td>
+                        <td>@col.Default</td>
+                        <td>@col.PrimaryKey</td>
+                        <td>@col.ForeignKey</td>
+                        <td>@col.UniqueKey</td>
+                        <td>@col.Check</td>
+                        <td>@col.Computed</td>
+                        <td>@col.Comment</td>
+                    </tr>
+                }
+
+            </table>
+            <br>
+        }
+    <br>
+    }
+
+    <hr>
+    <span class="brlarge">  </span>
+}
+
+<!-- VISTAS -->
+
+@if (!(bool)Model["no_views"] && (( IList< ModelLibrary.DBObjects.View > )Model["views"]).Count > 0)
+{
+    <span class="brlarge">  </span>
+    <span class="brlarge">  </span>
+    <h2 id="vistas"><a href="#indice">Vistas</a></h2>
+    <br />
+    <br />
+
+    @foreach (ModelLibrary.DBObjects.View view in (IList<ModelLibrary.DBObjects.View>)(Model["views"]))
+    {
+        <span class="brlarge">  </span>
+        <span class="brlarge">  </span>
+        <div class="bold" id="@view.Schema.@view.Name"><a href="#indice">View : @view.Schema.@view.Name</a></div>
+        <div class="enfatizar"><b>Comentario:</b>@view.Comment</div>
+        <br>
+        @if (!((IList<string>)Model["status"]).Any(s => view.Comment.Equals(s)))
+        {
+            <table class="tdTableSection">
+                <tr>
+                    <th>Columna</th>
+                    <th>Tipo</th>
+                    <th>Nullable</th>
+                    <th>Comment</th>
+                </tr>
+                @foreach(var col in view.ViewDetails)
+                {
+                    <tr>
+                        <td>@col.Column</td>
+                        <td>@col.Type</td>
+                        <td>@col.Nullable</td>
+                        <td>@col.Comment</td>
+                    </tr>
+                }
+            </table>
+            <br>
+        }
+        <br>
+    }
+    <hr>
+    <span class="brlarge">  </span>
+}
+
+<!-- PROCS -->
+
+@if (!(bool)Model["no_procs"])
+{
+
+    <span class="brlarge">  </span>
+    <span class="brlarge">  </span>
+    <h2 id="procedimientos"><a href="#indice">Procedimientos Almacenados</a></h2>
+    <br />
+    <br />
+    @foreach (ModelLibrary.DBObjects.Proc proc in (IList<ModelLibrary.DBObjects.Proc>)Model["procs"])
+    {
+        <div class="bold" id="@proc.Schema.@proc.Name"><a href="#indice">Procedimiento: @proc.Schema.@proc.Name</a></div>
+        <div class="enfatizar"><b>Comentario:</b>@proc.Comment</div>
+        <br>
+    }
+
+    <hr>
+    <span class="brlarge">  </span>
+        
+}
+
+
+<!-- FUNCIONES -->
+
+@if ( !(bool) Model["no_functions"] )
+{
+    @if ( ((IList<ModelLibrary.DBObjects.ScalarFunction>) Model["scalar_funcs"]).Count > 0  )
+    {
+        <span class="brlarge">  </span>
+        <span class="brlarge">  </span>
+        <h2 id="scalar_funcs"><a href="#indice">Funciones Escalares</a></h2>
+        <br />
+        <br />
+        @foreach (ModelLibrary.DBObjects.ScalarFunction function in (IList<ModelLibrary.DBObjects.ScalarFunction>) Model["scalar_funcs"] )
+        {
+            <div class="bold" id="@function.Schema.@function.Name"><a href="#indice">Función: @function.Schema.@function.Name</a></div>
+            <div class="enfatizar"><b>Comentario:</b> @function.Comment</div>
+            <br>
+        }
+
+        <hr>
+        <span class="brlarge">  </span>
+
+    }
+
+    @if (((IList<ModelLibrary.DBObjects.TableFunction>)Model["table_funcs"]).Count > 0)
+    {
+        <span class="brlarge">  </span>
+        <span class="brlarge">  </span>
+        <h2 id="tab_funcs"><a href="#indice">Funciones Tabulares</a></h2>
+        <br />
+        <br />
+        @foreach (ModelLibrary.DBObjects.TableFunction function in (IList<ModelLibrary.DBObjects.TableFunction>) Model["table_funcs"] )
+        {
+            <div class="bold" id="@function.Schema.@function.Name"><a href="#indice"> Función: @function.Schema.@function.Name</a></div>
+            <div class="enfatizar"><b>Comentario:</b>@function.Comment</div>
+            <br>
+        }
+    }
+}
+
+<br />
+<hr>
+<br />
+<div><img class="logo" src="data:image/ @Model["img_ext"];base64,@Model["image"]"></div>
+<div class="small-font">Made By</div>
+<div class="small-font">Cristian Solervicéns - 2023</div>
+<br />
