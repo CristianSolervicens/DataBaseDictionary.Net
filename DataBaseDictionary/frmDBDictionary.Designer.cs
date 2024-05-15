@@ -90,10 +90,10 @@
             // 
             txtPassword.Location = new Point(12, 110);
             txtPassword.Name = "txtPassword";
-            txtPassword.PasswordChar = '#';
             txtPassword.PlaceholderText = "Database Password";
             txtPassword.Size = new Size(223, 23);
             txtPassword.TabIndex = 2;
+            txtPassword.UseSystemPasswordChar = true;
             // 
             // laDatabases
             // 
@@ -301,15 +301,15 @@
             // 
             txtLogo.Location = new Point(12, 195);
             txtLogo.Name = "txtLogo";
-            txtLogo.Size = new Size(223, 23);
+            txtLogo.Size = new Size(217, 23);
             txtLogo.TabIndex = 30;
             txtLogo.Text = "FrogFull.png";
             // 
             // btGetLogo
             // 
-            btGetLogo.Location = new Point(234, 190);
+            btGetLogo.Location = new Point(232, 194);
             btGetLogo.Name = "btGetLogo";
-            btGetLogo.Size = new Size(25, 19);
+            btGetLogo.Size = new Size(25, 25);
             btGetLogo.TabIndex = 31;
             btGetLogo.Text = "...";
             btGetLogo.UseVisualStyleBackColor = true;
@@ -328,13 +328,12 @@
             // 
             txtPixels.Location = new Point(148, 227);
             txtPixels.Name = "txtPixels";
-            txtPixels.Size = new Size(87, 23);
+            txtPixels.Size = new Size(81, 23);
             txtPixels.TabIndex = 33;
-            txtPixels.Text = "100";
+            txtPixels.Text = "80";
             // 
             // laStatus
             // 
-            laStatus.BorderStyle = BorderStyle.FixedSingle;
             laStatus.Enabled = false;
             laStatus.Location = new Point(6, 410);
             laStatus.Name = "laStatus";

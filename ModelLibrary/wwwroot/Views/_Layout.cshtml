@@ -41,11 +41,14 @@
 
             table td + td {
                 border-left: 1px solid #eee;
+                padding-left: 5px;
+                padding-right: 5px;
             }
 
         th + th {
             border-left: 1px solid #eee;
-            padding: 5px;
+            padding-left: 5px;
+            padding-right: 5px;
         }
 
         th,
@@ -64,11 +67,18 @@
             background: var(--light-cells);
             border-bottom: 1px solid #ddd;
             line-height: 150%;
+            padding-left: 5px;
+            padding-right: 5px;
         }
 
         table caption {
             font-weight: bold;
             margin-bottom: 0.5rem;
+        }
+
+        a {
+            text-decoration: none;
+            font-weight: bold;
         }
 
         .br {
@@ -89,6 +99,11 @@
         .bold {
             font-weight: bold;
             line-height: 200%;
+        }
+
+        .object-title{
+            line-height: 220%;
+            font-size: 120%;
         }
 
         .enfatizar {
@@ -175,7 +190,7 @@
         }
 
         .logo {
-            width: 100px
+            width: @Model["image_width"]px;
         }
 
     </style>
@@ -194,13 +209,12 @@
     @RenderBody()
 
 <!-- Fin de Reporte -->
-<br />
-<hr>
-<br />
+<br>
+<br>
 <div><img class="logo" src="data:image/ @Model["img_ext"];base64,@Model["image"]"></div>
 <div class="small-font">Made By</div>
 <div class="small-font">Cristian Solervicéns - 2023</div>
-<br />
+<br>
 
 </body>
 </html>

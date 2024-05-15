@@ -47,6 +47,8 @@ namespace DataBaseDictionary
         private async void btGenerateDocument_Click(object sender, EventArgs e)
         {
             laStatus.Text = "";
+            this.Refresh();
+
             string selectedDB = lsDatabases.Text;
 
             var connectionString = MySql.SQLServerConnectionString(txtServer.Text, "master", txtUser.Text, txtPassword.Text, false);
