@@ -46,7 +46,7 @@ namespace DataBaseDictionary
 
         private async void btGenerateDocument_Click(object sender, EventArgs e)
         {
-            laStatus.Text = "";
+            laStatus.Text = "Running... please wait...";
             this.Refresh();
 
             string selectedDB = lsDatabases.Text;
