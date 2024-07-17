@@ -58,6 +58,8 @@
             label7 = new Label();
             txtPixels = new TextBox();
             laStatus = new TextBox();
+            picBoxLogo = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)picBoxLogo).BeginInit();
             SuspendLayout();
             // 
             // txtServer
@@ -70,7 +72,7 @@
             // 
             // btConnect
             // 
-            btConnect.Location = new Point(12, 331);
+            btConnect.Location = new Point(12, 340);
             btConnect.Name = "btConnect";
             btConnect.Size = new Size(190, 29);
             btConnect.TabIndex = 3;
@@ -127,7 +129,7 @@
             // 
             // btGenerateDocument
             // 
-            btGenerateDocument.Location = new Point(12, 369);
+            btGenerateDocument.Location = new Point(12, 374);
             btGenerateDocument.Name = "btGenerateDocument";
             btGenerateDocument.Size = new Size(190, 29);
             btGenerateDocument.TabIndex = 18;
@@ -139,7 +141,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(12, 304);
+            label3.Location = new Point(12, 319);
             label3.Name = "label3";
             label3.Size = new Size(48, 15);
             label3.TabIndex = 12;
@@ -291,7 +293,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(12, 167);
+            label6.Location = new Point(12, 144);
             label6.Name = "label6";
             label6.Size = new Size(34, 15);
             label6.TabIndex = 29;
@@ -299,7 +301,7 @@
             // 
             // txtLogo
             // 
-            txtLogo.Location = new Point(12, 195);
+            txtLogo.Location = new Point(12, 163);
             txtLogo.Name = "txtLogo";
             txtLogo.Size = new Size(217, 23);
             txtLogo.TabIndex = 30;
@@ -307,7 +309,7 @@
             // 
             // btGetLogo
             // 
-            btGetLogo.Location = new Point(232, 194);
+            btGetLogo.Location = new Point(232, 162);
             btGetLogo.Name = "btGetLogo";
             btGetLogo.Size = new Size(25, 25);
             btGetLogo.TabIndex = 31;
@@ -318,7 +320,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(12, 231);
+            label7.Location = new Point(12, 199);
             label7.Name = "label7";
             label7.Size = new Size(72, 15);
             label7.TabIndex = 32;
@@ -326,11 +328,11 @@
             // 
             // txtPixels
             // 
-            txtPixels.Location = new Point(148, 227);
+            txtPixels.Location = new Point(148, 195);
             txtPixels.Name = "txtPixels";
             txtPixels.Size = new Size(81, 23);
             txtPixels.TabIndex = 33;
-            txtPixels.Text = "80";
+            txtPixels.Text = "120";
             // 
             // laStatus
             // 
@@ -341,9 +343,19 @@
             laStatus.TabIndex = 35;
             laStatus.Text = "Status...";
             // 
+            // picBoxLogo
+            // 
+            picBoxLogo.BorderStyle = BorderStyle.FixedSingle;
+            picBoxLogo.Location = new Point(15, 229);
+            picBoxLogo.Name = "picBoxLogo";
+            picBoxLogo.Size = new Size(213, 68);
+            picBoxLogo.TabIndex = 36;
+            picBoxLogo.TabStop = false;
+            // 
             // frmDBDictionary
             // 
             ClientSize = new Size(801, 439);
+            Controls.Add(picBoxLogo);
             Controls.Add(laStatus);
             Controls.Add(txtPixels);
             Controls.Add(label7);
@@ -376,6 +388,9 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "frmDBDictionary";
             Text = "DB Dictionary";
+            FormClosing += frmDBDictionary_FormClosing;
+            Load += frmDBDictionary_Load;
+            ((System.ComponentModel.ISupportInitialize)picBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -410,5 +425,6 @@
         private Label label7;
         private TextBox txtPixels;
         private TextBox laStatus;
+        private PictureBox picBoxLogo;
     }
 }

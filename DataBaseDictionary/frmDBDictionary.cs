@@ -1,4 +1,7 @@
+using DataBaseDictionary.helpers;
 using ModelLibrary;
+using System.Timers;
+using System.Windows.Forms;
 
 
 namespace DataBaseDictionary
@@ -8,11 +11,36 @@ namespace DataBaseDictionary
 
         public MySql hsql = new();
         private ToolTip ttip = new ToolTip();
+        private static System.Timers.Timer LoadTimer;
+        config cfg;
         public frmDBDictionary()
         {
             InitializeComponent();
             btGenerateDocument.Enabled = false;
+        }
 
+
+        private void ShowImage(string path)
+        {
+            try
+            {
+                picBoxLogo.ImageLocation = txtLogo.Text;
+            }
+            catch
+            {
+                return;
+            }
+
+            picBoxLogo.Show();
+
+            if (picBoxLogo.Image == null)
+                return;
+
+            var imageSize = picBoxLogo.Image.Size;
+            var fitSize = picBoxLogo.ClientSize;
+
+            picBoxLogo.SizeMode = imageSize.Width > fitSize.Width || imageSize.Height > fitSize.Height ?
+                PictureBoxSizeMode.Zoom : PictureBoxSizeMode.CenterImage;
         }
 
         private void btConnect_Click(object sender, EventArgs e)
@@ -54,13 +82,13 @@ namespace DataBaseDictionary
             var connectionString = MySql.SQLServerConnectionString(txtServer.Text, "master", txtUser.Text, txtPassword.Text, false);
 
             IList<string> status = new List<string>();
-            if ( ! chkDeprecado.Checked)
+            if (!chkDeprecado.Checked)
                 status.Add("DEPRECADO");
-            if ( ! chkEnDesuso.Checked)
+            if (!chkEnDesuso.Checked)
                 status.Add("EN DESUSO");
-            if ( ! chkInterna.Checked)
+            if (!chkInterna.Checked)
                 status.Add("INTERNA");
-            if ( ! chkRespaldo.Checked)
+            if (!chkRespaldo.Checked)
                 status.Add("RESPALDO");
 
 
@@ -106,7 +134,7 @@ namespace DataBaseDictionary
             string fileName = $"ModeloDeDato_{selectedDB}.html";
 
             var documento = await doc.GenerateDocumentation();
-            
+
             File.WriteAllText($"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\ModeloDeDato_{selectedDB}.html", documento);
 
             laStatus.Text = $"Archivo Generado!  [MisDocumentos\\{fileName}]";
@@ -132,6 +160,49 @@ namespace DataBaseDictionary
             }
 
             ttip.SetToolTip(txtLogo, txtLogo.Text);
+
+            ShowImage(txtLogo.Text);
+        }
+
+        private void frmDBDictionary_Load(object sender, EventArgs e)
+        {
+            cfg = new config();
+            cfg = config.LoadFromJson();
+            if (cfg.server != "")
+                txtServer.Text = cfg.server;
+            if (cfg.user != "")
+                txtUser.Text = cfg.user;
+            if (cfg.password != "")
+                txtPassword.Text = cfg.password;
+            if (cfg.logo_path != "")
+                txtLogo.Text = cfg.logo_path;
+
+
+            ShowImage(txtLogo.Text);
+            LoadTimer = new System.Timers.Timer(300);
+            LoadTimer.Elapsed += OnTimedEvent;
+            LoadTimer.Start();
+        }
+
+        private void OnTimedEvent(Object sourtce, ElapsedEventArgs e)
+        {
+            LoadTimer.Stop();
+            LoadTimer.Enabled = false;
+            LoadTimer.Dispose();
+            ShowImage(txtLogo.Text);
+        }
+
+        private void frmDBDictionary_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (txtServer.Text != "")
+                cfg.server = txtServer.Text;
+            if (txtUser.Text != "")
+                cfg.user = txtUser.Text;
+            if (txtPassword.Text != "")
+                cfg.password = txtPassword.Text;
+            if (txtLogo.Text != "")
+                cfg.logo_path = txtLogo.Text;
+            cfg.SaveToJson();
         }
     }
 }
