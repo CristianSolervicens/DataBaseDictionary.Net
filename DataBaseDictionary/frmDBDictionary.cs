@@ -135,10 +135,39 @@ namespace DataBaseDictionary
 
             var documento = await doc.GenerateDocumentation();
 
-            File.WriteAllText($"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\ModeloDeDato_{selectedDB}.html", documento);
+            ////----------------
+            using (SaveFileDialog saveForm = new SaveFileDialog())
+            {
+                saveForm.RestoreDirectory = true;
+                saveForm.Filter = "HTML File|*.html";
+                saveForm.Title = "Save As HTML File";
+                saveForm.FileName = fileName;
+                saveForm.ShowDialog();
 
-            laStatus.Text = $"Archivo Generado!  [MisDocumentos\\{fileName}]";
-            Console.Beep();
+                if (saveForm.FileName == "")
+                {
+                    return;
+                }
+
+
+                if (File.Exists(saveForm.FileName))
+                {
+                    try
+                    {
+                        File.Delete(saveForm.FileName);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Cannot delete existing File.\nVerify is not in use.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        return;
+                    }
+                }
+
+                File.WriteAllText(saveForm.FileName, documento);
+                laStatus.Text = $"Archivo Generado!  [{saveForm.FileName}]";
+                Console.Beep();
+            }
+
         }
 
 
